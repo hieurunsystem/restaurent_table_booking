@@ -1,9 +1,7 @@
 package models
 
 import (
-	"database/sql"
 	"errors"
-	"log"
 
 	"github.com/restaurent_table_booking/db"
 	"github.com/restaurent_table_booking/utils"
@@ -92,56 +90,45 @@ func (u *Users) RegisterStaff() error {
 }
 
 func (u *Users) Login() error {
-	var currentRole string
 	cumtomersQuery := `
 	SELECT id, password FROM users
 	WHERE gmail = ?
 	`
-	rowCustomer := logRole(cumtomersQuery, u)
+	rowCustomer := db.DB.QueryRow(cumtomersQuery, u.Email)
 
 	staffsQuery := `
 	SELECT id, password FROM staffs
 	WHERE gmail = ?
 	`
-	rowStaff := logRole(staffsQuery, u)
+	rowStaff := db.DB.QueryRow(staffsQuery, u.Email)
 
 	adminsQuery := `
 	SELECT id, password FROM admin
 	WHERE gmail = ?
 	`
-	rowAdmin := logRole(adminsQuery, u)
-
-	var rows *sql.Row
-
-	if rowCustomer != nil {
-		rows = rowCustomer
-		currentRole = "user"
-	} else if rowStaff != nil {
-		rows = rowStaff
-		currentRole = "staff"
-	} else if rowAdmin != nil {
-		rows = rowAdmin
-		currentRole = "admin"
-	} else {
-		return errors.New("Don't have anyone having this email")
-	}
-
-	log.Fatal(currentRole)
+	rowAdmin := db.DB.QueryRow(adminsQuery, u.Email)
 
 	var retrievedPassword string
-	err := rows.Scan(&u.Id, retrievedPassword)
-	if err != nil {
-		panic(err)
-		return err
+	var err error
+	err = rowAdmin.Scan(&u.Id, &retrievedPassword)
+	if err == nil {
+		u.Role = "admin"
+	} else {
+		err = rowStaff.Scan(&u.Id, &retrievedPassword)
+		if err == nil {
+			u.Role = "staff"
+		} else {
+			err = rowCustomer.Scan(&u.Id, &retrievedPassword)
+			if err == nil {
+				u.Role = "user"
+			} else {
+				return errors.New("Don't have anyone having this email")
+			}
+		}
 	}
 	ok := utils.PasswordVerify(u.Password, retrievedPassword)
 	if !ok {
 		return errors.New("Invalid Password!")
 	}
 	return nil
-}
-
-func logRole(query string, u *Users) *sql.Row {
-	rows := db.DB.QueryRow(query, u.Email)
-	return rows
 }
