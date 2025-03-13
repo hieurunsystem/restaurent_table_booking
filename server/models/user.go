@@ -132,3 +132,28 @@ func (u *Users) Login() error {
 	}
 	return nil
 }
+
+func GetAllUsers() ([]Users, error) {
+	sqlQuery := `
+	SELECT * FROM users
+	UNION
+	SELECT * FROM admin`
+	rows, err := db.DB.Query(sqlQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	var users []Users
+
+	defer rows.Close()
+
+	for rows.Next() {
+		var u Users
+		err := rows.Scan(&u.Id, &u.Email, &u.Name, &u.Phone, &u.Password)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, u)
+	}
+	return users, nil
+}

@@ -58,3 +58,8 @@ func Register(context *gin.Context) {
 	}
 	context.JSON(http.StatusCreated, gin.H{"Message": "Register successfully !!"})
 }
+
+func GetUser(context *gin.Context) {
+	u, _ := models.GetAllUsers()
+	context.JSON(http.StatusOK, gin.H{"users": u})
+}
