@@ -1,11 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import $ from "jquery";
+import axios from "axios";
 
 const LoginPage = () => {
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min");
+    axios
+      .get("http://localhost:8080/user_list")
+      .then((response) => setUsers(response.data.users)) // Không cần .json()
+      .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
   return (
@@ -17,6 +24,20 @@ const LoginPage = () => {
             <br /> Login Page
           </h2>
           <p>Login or register from here to access.</p>
+          <div>
+            <h2>User List</h2>
+            <ul>
+              {Array.isArray(users) ? (
+                users.map((user) => (
+                  <li key={user.Id}>
+                    {user.Name} - {user.Email}
+                  </li>
+                ))
+              ) : (
+                <p>No users found</p>
+              )}
+            </ul>
+          </div>
         </div>
       </div>
       <div className="main container d-flex align-items-center justify-content-center">

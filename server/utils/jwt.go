@@ -6,7 +6,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-var secretKey = "kiemlam"
+var secretKey = "secretKey"
 
 func GenarateToken(userId int64, gmail, role string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

@@ -49,7 +49,7 @@ const NavBar = () => {
       <li key={id}>
         <LinkS
           to={link}
-          smooth
+          smooth="true"
           duration={550}
           onClick={handleClick}
           aria-label="On Click"
@@ -66,7 +66,7 @@ const NavBar = () => {
     <li key="login" className="auth-link">
       <Link
         to="/login"
-        smooth
+        smooth="true"
         onClick={handleClick}
         aria-label="Login"
         className="nav-links"
@@ -77,7 +77,7 @@ const NavBar = () => {
     <li key="signup" className="auth-link">
       <Link
         to="/signup"
-        smooth
+        smooth="true"
         duration={550}
         onClick={handleClick}
         aria-label="Signup"
@@ -94,7 +94,7 @@ const NavBar = () => {
         <nav className="nav-container">
           <LinkS
             to="hero"
-            smooth
+            smooth="true"
             duration={550}
             onClick={handleClick}
             aria-label="On Click"
