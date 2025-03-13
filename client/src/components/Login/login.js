@@ -15,7 +15,7 @@ const LoginPage = () => {
       <h2>User List</h2>
       <ul>
         {Array.isArray(users) ? users.map((user) => (
-          <li key={user.Id}>{user.Name} - {user.Email}</li>
+          <li>{user.Name} - {user.Email}</li>
         )) : <p>No users found</p>}
       </ul>
     </div>
