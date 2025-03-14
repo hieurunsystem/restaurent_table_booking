@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Server",
+      "type": "shell",
+      "command": "go run main.go",
+      "options": {
+        "cwd": "${workspaceFolder}/server"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "ZClient",
+      "type": "shell",
+      "command": "npm start",
+      "options": {
+        "cwd": "${workspaceFolder}/client"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All",
+      "dependsOn": ["Server", "ZClient"],
+      "dependsOrder": "parallel"
+    }
+  ]
+}
