@@ -10,7 +10,7 @@ type Restaurant struct {
 	Id          int64
 	Name        string
 	Description string
-	Admin_id    int
+	Owner_id    int
 }
 
 func GetAllRestaurants() ([]Restaurant, error) {
@@ -24,7 +24,7 @@ func GetAllRestaurants() ([]Restaurant, error) {
 
 	for rows.Next() {
 		var e Restaurant
-		err = rows.Scan(&e.Id, &e.Name, &e.Description, &e.Admin_id)
+		err = rows.Scan(&e.Id, &e.Name, &e.Description, &e.Owner_id)
 		if err != nil {
 			return res, errors.New("Can't catch any information")
 		}
@@ -35,7 +35,7 @@ func GetAllRestaurants() ([]Restaurant, error) {
 
 func (r *Restaurant) CreateRestaurant() error {
 	query := `
-	INSERT INTO restaurants(name, description, admin_id) 
+	INSERT INTO restaurants(name, description, owner_id) 
 	VALUES (?, ?, ?)`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
@@ -43,7 +43,7 @@ func (r *Restaurant) CreateRestaurant() error {
 		return errors.New("Can't catch any information")
 	}
 	defer stmt.Close()
-	result, err := stmt.Exec(r.Name, r.Description, r.Admin_id)
+	result, err := stmt.Exec(r.Name, r.Description, r.Owner_id)
 	if err != nil {
 		// panic(err)
 		// panic(r.name)

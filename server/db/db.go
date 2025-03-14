@@ -21,8 +21,8 @@ func InitDB() {
 }
 
 func createTable() {
-	userQuery := `
-	CREATE TABLE IF NOT EXISTS users (
+	CustomerQuery := `
+	CREATE TABLE IF NOT EXISTS customers (
 		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		gmail VARCHAR(50) NOT NULL UNIQUE,
 		name NVARCHAR(50) NOT NULL, 
@@ -30,7 +30,7 @@ func createTable() {
 		password VARCHAR(250) NOT NULL
 	)	
 	`
-	_, err := DB.Exec(userQuery)
+	_, err := DB.Exec(CustomerQuery)
 	if err != nil {
 		panic(err)
 	}
@@ -49,13 +49,27 @@ func createTable() {
 		panic(err)
 	}
 
+	OwnerQuery := `
+	CREATE TABLE IF NOT EXISTS owners (
+		id INTEGER PRIMARY KEY AUTO_INCREMENT,
+		gmail VARCHAR(50) NOT NULL UNIQUE,
+		name NVARCHAR(50) NOT NULL, 
+		phone VARCHAR(50) NOT NULL,
+		password VARCHAR(250) NOT NULL
+	)	
+	`
+	_, err = DB.Exec(OwnerQuery)
+	if err != nil {
+		panic(err)
+	}
+
 	RestaurantQuery := `
 	CREATE TABLE IF NOT EXISTS restaurants (
 		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		name NVARCHAR(50) NOT NULL, 
 		description VARCHAR(250) NOT NULL,
-		admin_id INTEGER NOT NULL,
-		FOREIGN KEY (admin_id) REFERENCES admin(id)
+		owner_id INTEGER NOT NULL,
+		FOREIGN KEY (owner_id) REFERENCES owners(id)
 	)	
 	`
 	_, err = DB.Exec(RestaurantQuery)
@@ -82,7 +96,8 @@ func createTable() {
 	CREATE TABLE IF NOT EXISTS tables (
 		id INTEGER PRIMARY KEY AUTO_INCREMENT,
 		name NVARCHAR(50) NOT NULL, 
-		seats INTEGER NOT NULL,
+		type INTEGER NOT NULL,
+		seats NVARCHAR(50) NOT NULL,
 		restaurant_id INTEGER NOT NULL,
 		FOREIGN KEY (restaurant_id) REFERENCES restaurants(id)
 	)	
@@ -115,8 +130,8 @@ func createTable() {
 		customer_email VARCHAR(50) NOT NULL,
 		table_id INTEGER NOT NULL,
 		FOREIGN KEY (table_id) REFERENCES tables(id),
-		user_id INTEGER NOT NULL,
-		FOREIGN KEY (user_id) REFERENCES users(id),
+		customer_id INTEGER NOT NULL,
+		FOREIGN KEY (customer_id) REFERENCES customers(id),
 		status_id INTEGER NOT NULL,
 		FOREIGN KEY (status_id) REFERENCES status(id)
 	)	
