@@ -4,19 +4,16 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import $ from "jquery";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate(); // Dùng để chuyển hướng trang
   let [Email, setEmail] = useState("");
   let [Password, setPassword] = useState("");
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min");
-    axios
-      .get("http://localhost:8080/user_list")
-      .then((response) => setUsers(response.data.users)) // Không cần .json()
-      .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
   async function HandleLogin(e) {
@@ -29,7 +26,7 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        alert("Login successful!");
+        toast.success("Login successful!");
         console.log("User data:", response.data);
 
         const { role, tokens } = response.data;
@@ -38,44 +35,32 @@ const LoginPage = () => {
         localStorage.setItem("role", role);
         localStorage.setItem("token", tokens);
 
-        // Điều hướng dựa vào role
-        if (role === "admin") {
-          navigate("/admin"); // Chuyển sang trang admin
-        } else {
-          navigate("/home"); // Chuyển sang trang user thông thường
-        }
+        // Wait for 2 seconds before navigating
+        setTimeout(() => {
+          // Điều hướng dựa vào role
+          if (role === "admin") {
+            navigate("/admin"); // Chuyển sang trang admin
+          } else {
+            navigate("/"); // Chuyển sang trang user thông thường
+          }
+        }, 1000);
       } else {
-        alert("Login failed. Please check your credentials.");
+        toast.error("Login failed. Please check your credentials.");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Error during login. Please try again.");
+      toast.error("Error during login. Please try again.");
     }
   }
 
   return (
     <div className="d-flex">
+      <ToastContainer />
       <div className="sidenav d-flex align-items-center justify-content-center text-white text-center">
         <div className="login-main-text">
-          <h2>
-            Kien's Restaurant
-            <br /> Login Page
-          </h2>
+          <h1>Restaurant</h1>
+          <h3>Login Page</h3>
           <p>Login or register from here to access.</p>
-          <div>
-            <h2>User List</h2>
-            <ul>
-              {Array.isArray(users) ? (
-                users.map((user) => (
-                  <li key={user.Id}>
-                    {user.Name} - {user.Email}
-                  </li>
-                ))
-              ) : (
-                <p>No users found</p>
-              )}
-            </ul>
-          </div>
         </div>
       </div>
       <div className="main container d-flex align-items-center justify-content-center">

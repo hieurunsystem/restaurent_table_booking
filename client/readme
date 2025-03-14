@@ -2,3 +2,5 @@ npm install bootstrap jquery
 
 #
 npm install axios
+
+npm install react-toastify
