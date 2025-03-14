@@ -1,0 +1,8 @@
+POST http://localhost:8080/restaurants/create
+content-Type: application/json
+
+{
+    "Name": "Kien Restaurant", 
+    "Description": "Nha hang cua su tin tuong",
+    "Admin_id": 1
+}
