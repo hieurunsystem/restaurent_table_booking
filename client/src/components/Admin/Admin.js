@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { restaurants } from "../../data";
+import HandleLogout from "../../utils/Logout/Logout";
 const Admin = () => {
   const [reservations, setReservations] = useState([]);
   const [users, setUsers] = useState([]);
@@ -10,16 +11,16 @@ const Admin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch reservations from the server
-    axios
-      .get("/api/reservations")
-      .then((response) => {
-        setReservations(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the reservations!", error);
-        setReservations(null);
-      });
+    // // Fetch reservations from the server
+    // axios
+    //   .get("/api/reservations")
+    //   .then((response) => {
+    //     setReservations(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.error("There was an error fetching the reservations!", error);
+    //     setReservations(null);
+    //   });
 
     // Fetch users from the server
     axios
@@ -50,6 +51,9 @@ const Admin = () => {
 
   return (
     <div className="bg-secondary min-vh-100 d-flex py-5">
+      <a className="btn btn-outline-danger" onClick={() => HandleLogout()}>
+        Logout
+      </a>
       <div className="container bg-dark text-white p-4 rounded">
         <h1 className="mb-4">Admin Page</h1>
         <hr className="border-light"></hr>

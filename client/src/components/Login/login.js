@@ -9,49 +9,60 @@ import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const navigate = useNavigate(); // Dùng để chuyển hướng trang
-  let [Email, setEmail] = useState("");
-  let [Password, setPassword] = useState("");
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min");
+    axios
+      .get("http://localhost:8080/me", { withCredentials: true })
+      .then((res) => {
+        setTimeout(() => {}, 2000);
+        if (res.data.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      })
+      .catch((err) => {
+        console.log("login dum tui", err);
+      });
   }, []);
 
-  async function HandleLogin(e) {
-    e.preventDefault(); // Ngăn chặn hành vi reload trang mặc định
+  const HandleLogin = async (e) => {
+    e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/login", {
-        Email,
-        Password,
-      });
+      const res = await axios.post(
+        "http://localhost:8080/login",
+        { Email: email, Password: password },
+        { withCredentials: true }
+      );
 
-      if (response.status === 200) {
+      if (res.status === 200) {
         toast.success("Login successful!");
-        console.log("User data:", response.data);
 
-        const { role, tokens } = response.data;
+        axios
+          .get("http://localhost:8080/me", { withCredentials: true })
+          .then((res) => {
+            console.log(res);
+            if (res.data.role === "admin") {
+              navigate("/admin");
+            } else {
+              navigate("/");
+            }
+          })
+          .catch((err) => {
+            console.log("login dum tui", err);
+          });
 
-        // Lưu vào localStorage
-        localStorage.setItem("role", role);
-        localStorage.setItem("token", tokens);
-
-        // Wait for 2 seconds before navigating
-        setTimeout(() => {
-          // Điều hướng dựa vào role
-          if (role === "admin") {
-            navigate("/admin"); // Chuyển sang trang admin
-          } else {
-            navigate("/"); // Chuyển sang trang user thông thường
-          }
-        }, 1000);
-      } else {
-        toast.error("Login failed. Please check your credentials.");
+        setTimeout(() => {}, 1000);
       }
     } catch (error) {
       console.error("Login error:", error);
       toast.error("Error during login. Please try again.");
     }
-  }
+  };
 
   return (
     <div className="d-flex">
@@ -74,7 +85,7 @@ const LoginPage = () => {
                   type="text"
                   className="form-control"
                   placeholder="Email"
-                  value={Email}
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -85,7 +96,7 @@ const LoginPage = () => {
                   type="password"
                   className="form-control"
                   placeholder="Password"
-                  value={Password}
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
