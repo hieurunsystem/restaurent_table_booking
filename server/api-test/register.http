@@ -2,9 +2,9 @@ POST http://localhost:8080/register
 content-Type: application/json 
 
 {
-    "Name": "Tran Lam",
-	"Email": "lamtvt@gmail.com",
+    "Name": "user",
+	"Email": "user@gmail.com",
 	"Password":"1",
-	"Phone": "0796942241",
-	"Role":  "admin"
+	"Phone": "09216584615",
+	"Role":  "user"
 }

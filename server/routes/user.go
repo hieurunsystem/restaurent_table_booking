@@ -12,6 +12,7 @@ func Login(context *gin.Context) {
 	var u models.Users
 	err := context.ShouldBindBodyWithJSON(&u)
 	if err != nil {
+		panic(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Can't read your input information"})
 		return
 	}
@@ -72,6 +73,7 @@ func Register(context *gin.Context) {
 	}
 	context.JSON(http.StatusCreated, gin.H{"Message": "Register successfully !!"})
 }
+
 
 func GetUser(context *gin.Context) {
 	u, _ := models.GetAllUsers()

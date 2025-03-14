@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { restaurants } from "../../data";
-import HandleLogout from "../../utils/Logout/Logout";
+import HandleLogout from "../authentication/Logout/Logout";
 const Admin = () => {
   const [reservations, setReservations] = useState([]);
   const [users, setUsers] = useState([]);
@@ -51,11 +51,17 @@ const Admin = () => {
 
   return (
     <div className="bg-secondary min-vh-100 d-flex py-5">
-      <a className="btn btn-outline-danger" onClick={() => HandleLogout()}>
-        Logout
-      </a>
       <div className="container bg-dark text-white p-4 rounded">
-        <h1 className="mb-4">Admin Page</h1>
+        <div className="row">
+          <div className="col">
+            <h1 className="mb-4">Admin Page</h1>
+          </div>
+          <div className="col-auto">
+            <a className="btn btn-danger" onClick={() => HandleLogout()}>
+              Logout
+            </a>
+          </div>
+        </div>
         <hr className="border-light"></hr>
 
         <h2 className="mb-3">Restaurants</h2>

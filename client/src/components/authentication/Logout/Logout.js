@@ -7,7 +7,6 @@ const HandleLogout = async () => {
       {},
       { withCredentials: true }
     );
-    localStorage.removeItem("role"); // Xóa role khỏi localStorage
     window.location.href = "/";
   } catch (error) {
     console.error("Logout failed:", error);

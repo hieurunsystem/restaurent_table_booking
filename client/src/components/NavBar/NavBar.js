@@ -5,7 +5,7 @@ import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./NavBar.styles.css";
-
+import HandleLogout from "../authentication/Logout/Logout";
 const NavBar = () => {
   // STATE FOR HAMBURGER MENU
   const [nav, setNav] = useState(false);
@@ -76,7 +76,7 @@ const NavBar = () => {
     </li>,
     <li key="signup" className="auth-link">
       <Link
-        to="/signup"
+        to="/register"
         smooth="true"
         duration={550}
         onClick={handleClick}
@@ -84,6 +84,18 @@ const NavBar = () => {
         className="nav-links signup-link"
       >
         Signup
+      </Link>
+    </li>,
+    <li key="logout">
+      <Link
+        to="/logout"
+        smooth="true"
+        duration={550}
+        onClick={() => HandleLogout()}
+        aria-label="Signup"
+        className=" mx-5 btn btn-danger"
+      >
+        Logout
       </Link>
     </li>
   );
