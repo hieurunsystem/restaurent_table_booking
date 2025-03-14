@@ -20,15 +20,7 @@ export const links = [
   },
   {
     id: 2,
-    link: "menu",
-  },
-  {
-    id: 3,
-    link: "testimonials",
-  },
-  {
-    id: 4,
-    link: "contact",
+    link: "personal",
   },
 ];
 
@@ -119,5 +111,23 @@ export const socials = [
     id: 4,
     child: <FaTwitter size={30} />,
     link: "https://twitter.com/",
+  },
+];
+
+export const restaurants = [
+  {
+    id: 1,
+    name: "Kien's restaurant",
+    description: "Description that this restaurant is very good",
+  },
+  {
+    id: 2,
+    name: "Lam's restaurant",
+    description: "Description that this restaurant is very good",
+  },
+  {
+    id: 3,
+    name: "Hieu's restaurant",
+    description: "Description that this restaurant is very good",
   },
 ];
