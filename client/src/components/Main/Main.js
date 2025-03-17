@@ -5,6 +5,7 @@ import ConfirmedBookingPage from "../../pages/ConfirmedBookingPage";
 import Login from "../authentication/Login/Login";
 import RegisterPage from "../authentication/Register/Register";
 import Admin from "../Admin/Admin";
+import PersonalPage from "../Personal/Personal";
 const Main = () => {
   return (
     <Routes future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
@@ -14,6 +15,7 @@ const Main = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/personal" element={<PersonalPage />} />
     </Routes>
   );
 };

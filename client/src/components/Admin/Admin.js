@@ -60,6 +60,9 @@ const Admin = () => {
             <a className="btn btn-danger" onClick={() => HandleLogout()}>
               Logout
             </a>
+            <a className="btn btn-primary" onClick={() => navigate("/")}>
+              Home
+            </a>
           </div>
         </div>
         <hr className="border-light"></hr>

@@ -47,8 +47,15 @@ const LoginPage = () => {
           .get("http://localhost:8080/me", { withCredentials: true })
           .then((res) => {
             setTimeout(() => {
-              if (res.data.role === "admin") {
+              const userRole = res.data.role;
+              if (userRole === "admin") {
                 navigate("/admin");
+              } else if (userRole === "owner") {
+                navigate("/");
+              } else if (userRole === "staff") {
+                navigate("/");
+              } else if (userRole === "customer") {
+                navigate("/");
               } else {
                 navigate("/");
               }
