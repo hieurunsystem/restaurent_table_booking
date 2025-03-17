@@ -2,9 +2,9 @@ POST http://localhost:8080/register
 content-Type: application/json 
 
 {
-    "Name": "user",
-	"Email": "user@gmail.com",
-	"Password":"1",
-	"Phone": "09216584615",
-	"Role":  "user"
+    "Name": "Lê Ngọc Hiếu",
+	"Email": "hieuln@gmail.com",
+	"Password":"123456",
+	"Phone": "0921658465",
+	"Role":  "owner"
 }

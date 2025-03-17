@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/restaurent_table_booking/db"
 )
@@ -10,7 +11,9 @@ type Restaurant struct {
 	Id          int64
 	Name        string
 	Description string
-	Admin_id    int
+	Started     string
+	Ended       string
+	Owner_id    int
 }
 
 func GetAllRestaurants() ([]Restaurant, error) {
@@ -24,7 +27,7 @@ func GetAllRestaurants() ([]Restaurant, error) {
 
 	for rows.Next() {
 		var e Restaurant
-		err = rows.Scan(&e.Id, &e.Name, &e.Description, &e.Admin_id)
+		err = rows.Scan(&e.Id, &e.Name, &e.Description, &e.Started, &e.Ended, &e.Owner_id)
 		if err != nil {
 			return res, errors.New("Can't catch any information")
 		}
@@ -35,17 +38,18 @@ func GetAllRestaurants() ([]Restaurant, error) {
 
 func (r *Restaurant) CreateRestaurant() error {
 	query := `
-	INSERT INTO restaurants(name, description, admin_id) 
-	VALUES (?, ?, ?)`
+	INSERT INTO restaurants(name, description, time_start, time_end, owner_id) 
+	VALUES (?, ?, ?,?,?)`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
 		panic(err)
 		return errors.New("Can't catch any information")
 	}
 	defer stmt.Close()
-	result, err := stmt.Exec(r.Name, r.Description, r.Admin_id)
+	result, err := stmt.Exec(r.Name, r.Description, r.Started, r.Ended, r.Owner_id)
+	fmt.Print(r.Owner_id)
 	if err != nil {
-		// panic(err)
+		panic(err)
 		// panic(r.name)
 		return errors.New("Can't catch any information")
 	}
