@@ -12,22 +12,27 @@ func Login(context *gin.Context) {
 	var u models.Account
 	err := context.ShouldBindBodyWithJSON(&u)
 	if err != nil {
+		panic(err)
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Can't read your input information"})
 		return
 	}
 	err = u.Login()
-	// panic(err)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Can't login"})
 		return
 	}
+	// create token
 	token, err := utils.GenerateToken(u.Id, u.Email, u.Role)
 	if err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{"Message": "Can't login"})
+		context.JSON(http.StatusUnauthorized, gin.H{"Message": "Can't generate token"})
 		return
 	}
 
+	// save token into cookie
+	context.SetCookie("token", token, 7200, "/", "localhost", false, true)
+
 	context.JSON(http.StatusOK, gin.H{"Message": "Login successfully !!", "tokens": token, "role": u.Role})
+	// context.JSON(http.StatusOK, gin.H{"Message": "Login successfully !!"})
 }
 
 func Register(context *gin.Context) {
