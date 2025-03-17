@@ -42,7 +42,6 @@ func Register(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Can't read your input information"})
 		return
 	}
-
 	if u.Role == "customer" {
 		err = u.RegisterCustomer()
 		if err != nil {

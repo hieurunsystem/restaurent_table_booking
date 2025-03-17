@@ -13,7 +13,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("customer");
   const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
   const [errors, setErrors] = useState({});
 
@@ -41,12 +41,11 @@ const RegisterPage = () => {
     if (password !== confirmPassword) {
       validationErrors.confirmPassword = "Passwords do not match.";
     }
-
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-
+    console.log(role);
     try {
       const res = await axios.post("http://localhost:8080/register", {
         Name: name,
@@ -154,8 +153,8 @@ const RegisterPage = () => {
                     value={role}
                     onChange={(e) => setRole(e.target.value)}
                   >
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="customer">Customer</option>
+                    <option value="owner">Owner</option>
                   </select>
                 </div>
                 <div className="mt-4">
