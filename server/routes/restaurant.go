@@ -11,6 +11,7 @@ func CreateRestaurant(context *gin.Context) {
 	var r models.Restaurant
 	err := context.ShouldBindBodyWithJSON(&r)
 	if err != nil {
+		panic(err)
 		context.JSON(http.StatusBadGateway, gin.H{"message": "Can't take any input information"})
 		return
 	}

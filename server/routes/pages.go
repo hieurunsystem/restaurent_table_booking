@@ -5,10 +5,7 @@ import (
 )
 
 func Home(context *gin.Context) {
-
-	// if err != nil {
-	// 	context.JSON(http.StatusInternalServerError, gin.H{"Message": "Can't get information"})
-	// 	return
-	// }
-	// context.JSON(http.StatusOK, gin.H{"events": events})
+	context.JSON(200, gin.H{
+		"message": "Welcome to Restaurant Table Booking",
+	})
 }
