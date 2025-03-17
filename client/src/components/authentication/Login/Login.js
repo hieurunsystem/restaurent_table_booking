@@ -12,6 +12,7 @@ const LoginPage = () => {
   const navigate = useNavigate(); // Dùng để chuyển hướng trang
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  let [showPassword, setShowPassword] = useState(false); // State for showing password
 
   useEffect(() => {
     import("bootstrap/dist/js/bootstrap.bundle.min");
@@ -108,12 +109,32 @@ const LoginPage = () => {
                   <label className="form-label">Password</label>{" "}
                   {/* Added Bootstrap class "form-label" */}
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
                     className="form-control"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                </div>
+                <div className="form-check form-switch d-flex justify-content-end">
+                  <input
+                    className="form-check-input "
+                    type="checkbox"
+                    role="switch"
+                    checked={showPassword}
+                    onChange={() => setShowPassword(!showPassword)}
+                  />{" "}
+                  <div
+                    class="form-check-label mx-2"
+                    for="flexSwitchCheckDefault"
+                  >
+                    Show Password
+                  </div>
+                </div>
+                <div className="form-group my-2">
+                  <a href="/forgot-password">
+                    <label>Forgot Password?</label>
+                  </a>
                 </div>
                 <div className="mt-4">
                   <button type="submit" className="btn btn-dark w-100 mb-2">

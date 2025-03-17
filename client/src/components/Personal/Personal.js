@@ -14,7 +14,6 @@ const Personal = () => {
       })
       .catch((err) => {
         console.log("Error fetching user data", err);
-        
       });
   }, []);
 
