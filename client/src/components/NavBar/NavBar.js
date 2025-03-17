@@ -47,7 +47,7 @@ const NavBar = () => {
   const navLinks = links.map(({ link, id }) => {
     return (
       <li key={id}>
-        <LinkS
+        <Link
           to={link}
           smooth="true"
           duration={550}
@@ -56,7 +56,7 @@ const NavBar = () => {
           className="nav-links"
         >
           {link}
-        </LinkS>
+        </Link>
       </li>
     );
   });
