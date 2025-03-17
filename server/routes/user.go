@@ -26,7 +26,7 @@ func Login(context *gin.Context) {
 	if err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{"Message": "Can't generate token"})
 		return
-	}
+	}    
 
 	// save token into cookie
 	context.SetCookie("token", token, 7200, "/", "localhost", false, true)
@@ -42,7 +42,7 @@ func Logout(c *gin.Context) {
 
 	// Trả về phản hồi JSON
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
-}
+}   
 
 func Register(context *gin.Context) {
 	var u models.Users
