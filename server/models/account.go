@@ -15,7 +15,7 @@ type Account struct {
 	Phone     string
 	Password  string
 	Role      string
-	orther_id int64
+	Orther_id int64
 }
 
 func (u *Account) RegisterCustomer() error {
@@ -107,7 +107,7 @@ func (u *Account) RegisterStaff() error {
 	if !check {
 		return errors.New("This gmail already create account before!!")
 	}
-	query := `INSERT INTO customers(name, gmail, phone, password, restaurant_id) 
+	query := `INSERT INTO staffs(name, gmail, phone, password, restaurant_id) 
 		VALUES (?,?,?,?,?)`
 	stmt, err := db.DB.Prepare(query)
 	if err != nil {
@@ -120,7 +120,7 @@ func (u *Account) RegisterStaff() error {
 		panic(err)
 		return err
 	}
-	result, err := stmt.Exec(u.Name, u.Email, u.Phone, hashPassword, u.orther_id)
+	result, err := stmt.Exec(u.Name, u.Email, u.Phone, hashPassword, u.Orther_id)
 	if err != nil {
 		panic(err)
 		return err
