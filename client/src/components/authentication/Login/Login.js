@@ -34,7 +34,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
+      let res = await axios.post(
         "http://localhost:8080/login",
         { Email: email, Password: password },
         { withCredentials: true }
@@ -48,6 +48,7 @@ const LoginPage = () => {
           .then((res) => {
             setTimeout(() => {
               const userRole = res.data.role;
+              console.log(userRole);
               if (userRole === "admin") {
                 navigate("/admin");
               } else if (userRole === "owner") {
