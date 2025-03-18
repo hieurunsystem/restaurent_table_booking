@@ -21,7 +21,7 @@ func main() {
 
 	// Đăng ký các routes
 	routes.Routes(server)      // Các route chung
-	routes.AdminRoutes(server) // Các route yêu cầu quyền Admin
+	 // Các route yêu cầu quyền Admin
 
 	server.Run()
 	// timeN := "2000-03-17 8:00:00"

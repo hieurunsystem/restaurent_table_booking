@@ -1,0 +1,57 @@
+package routes
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/restaurent_table_booking/models"
+)
+
+func OwnerRoutes(server *gin.Engine) {
+	// OWNER ROUTES
+	owner := server.Group("/owners/:owner_id")
+	{
+		restaurant := owner.Group("/restaurants")
+		{
+			restaurant.GET("", GetAllRestaurants)
+			restaurant.GET("/:restaurant_id", GetRestaurantByID)
+			restaurant.POST("", CreateRestaurant)
+			restaurant.PUT("/:restaurant_id", EditRestaurant)
+			restaurant.DELETE("/:restaurant_id", DeleteRestaurant)
+
+			table := restaurant.Group("/:restaurant_id/tables")
+			{
+				table.GET("", GetAllTables)
+				table.GET("/:table_id", GetTableByID)
+				table.POST("", CreateTable)
+				table.PUT("/:table_id", EditTable)
+				table.DELETE("/:table_id", DeleteTable)
+			}
+		}
+	}
+}
+
+func GetAllRestaurants(context *gin.Context) {}
+func GetRestaurantByID(context *gin.Context) {}
+func CreateRestaurant(context *gin.Context) {
+	var r models.Restaurant
+	err := context.ShouldBindBodyWithJSON(&r)
+	if err != nil {
+		panic(err)
+		context.JSON(http.StatusBadGateway, gin.H{"message": "Can't take any input information"})
+		return
+	}
+	err = r.CreateRestaurant()
+	if err != nil {
+		context.JSON(http.StatusBadGateway, gin.H{"message": "Can't create restaurant"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Create succesfully", "restaurant": r})
+}
+func EditRestaurant(context *gin.Context)   {}
+func DeleteRestaurant(context *gin.Context) {}
+func GetAllTables(context *gin.Context)     {}
+func GetTableByID(context *gin.Context)     {}
+func CreateTable(context *gin.Context)      {}
+func EditTable(context *gin.Context)        {}
+func DeleteTable(context *gin.Context)      {}
