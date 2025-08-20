@@ -2,25 +2,37 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/restaurent_table_booking/internal/config"
 )
 
 var DB *sql.DB
 
 func InitDB() {
-	var err error = nil
-	DB, err = sql.Open("mysql", "root:123@tcp(localhost:3306)/restaurant_bookings")
+	config, err := config.LoadConfig()
 	if err != nil {
-		panic("Cannot connect to database")
+		return
+	}
+
+	uri := config.GetDatabaseUri()
+
+	DB, err = sql.Open("mysql", uri)
+	if err != nil {
+		fmt.Println("Cannotconnect to database")
+		return
 	}
 	DB.SetMaxOpenConns(10)
 	DB.SetMaxIdleConns(5)
 
-	createTable()
+	err = createTable()
+	if err != nil {
+		panic(err)
+	}
 }
 
-func createTable() {
+func createTable() error {
 	CustomerQuery := `
 	CREATE TABLE IF NOT EXISTS customers (
 		id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -32,7 +44,7 @@ func createTable() {
 	`
 	_, err := DB.Exec(CustomerQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	AdminQuery := `
@@ -46,7 +58,7 @@ func createTable() {
 	`
 	_, err = DB.Exec(AdminQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	OwnerQuery := `
@@ -60,7 +72,7 @@ func createTable() {
 	`
 	_, err = DB.Exec(OwnerQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	RestaurantQuery := `
@@ -76,7 +88,7 @@ func createTable() {
 	`
 	_, err = DB.Exec(RestaurantQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	StaffQuery := `
@@ -91,7 +103,7 @@ func createTable() {
 	)`
 	_, err = DB.Exec(StaffQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	TableQuery := `
@@ -106,7 +118,7 @@ func createTable() {
 	`
 	_, err = DB.Exec(TableQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	StatusQuery := `
@@ -117,7 +129,7 @@ func createTable() {
 	`
 	_, err = DB.Exec(StatusQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	ReservationQuery := `
@@ -140,6 +152,8 @@ func createTable() {
 	`
 	_, err = DB.Exec(ReservationQuery)
 	if err != nil {
-		panic(err)
+		return err
 	}
+
+	return nil
 }

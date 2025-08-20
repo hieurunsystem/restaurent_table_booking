@@ -3,7 +3,7 @@ content-Type: application/json
 
 {
     "Name": "Lê Ngọc Hiếu",
-	"Email": "hieuln1@gmail.com",
+	"Email": "hieuln3@gmail.com",
 	"Password":"123456",
 	"Phone": "0921658465",
 	"Role":  "customer",
